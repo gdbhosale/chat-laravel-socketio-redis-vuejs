@@ -24,7 +24,8 @@ io.on('connection', function(socket) {
 
     socket.on(socket_channel, function(message){
         console.log("socket.on", message);
-        io.emit(socket_channel, message);
+        // Emit commented to send messages via Laravel
+        // io.emit(socket_channel, message);
     });
 });
 

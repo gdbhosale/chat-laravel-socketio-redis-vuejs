@@ -17,3 +17,11 @@ Route::get('/', function () {
 
     return view('welcome');
 });
+
+Route::post('send_message', function (\Illuminate\Http\Request $request) {
+    event(new App\Events\Message($request->type, $request->content, date('Y-m-d H:i:s')));
+    
+    return response()->json([
+        'status' => 'success'
+    ]);
+});

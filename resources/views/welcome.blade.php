@@ -20,13 +20,16 @@
         padding: 10px;
         background: antiquewhite;
     }
+    .float-right {
+        float: right;
+    }
     </style>
 </head>
 <body>
 
 <div id="ChatApp">
     <ul class="list-group chatlist">
-        <li class="list-group-item" v-for="message in messages">@{{ message.type+" "+message.content }}</li>
+        <li class="list-group-item" v-for="message in messages">@{{ message.type+" "+message.content }} <span class="float-right">@{{ message.time }}</span></li>
     </ul>
     <div class="container-fluid message">
         <div class="Chat col-md-12">
@@ -42,6 +45,7 @@
 
 
 <script src="{{ asset('plugins/vue.js/vue.min.js') }}"></script>
+<script src="{{ asset('plugins/vue.js/vue-resource.min.js') }}"></script>
 <script src="{{ asset('plugins/socket.io/socket.io.min.js') }}"></script>
 <script language="JavaScript">
 var socket_port = {{ env('SOCKET_PORT') }};
@@ -79,9 +83,14 @@ var chatApp = new Vue({
             var message_obj = {
                 type: "UserMessage",
                 content: this.message,
-                time: ''
+                time: '',
+                _token: '{{ csrf_token() }}'
             };
-            socket.emit(socket_channel, message_obj);
+            this.$http.post('{{ url("/send_message") }}', message_obj).then((response) => {
+                console.log("socket.on.send_message", response);
+            });
+            // Emit commented to send messages via Laravel
+            // socket.emit(socket_channel, message_obj);
             this.message = '';
         }
     }
