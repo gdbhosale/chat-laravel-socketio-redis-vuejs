@@ -27,7 +27,11 @@ QUEUE_DRIVER=redis
 
 Install Redis server
 ```
+// Ubuntu
 sudo apt-get install redis-server
+
+// MacOS
+brew install redis
 ```
 
 Run Redis server in new terminal window / tab
