@@ -53,4 +53,4 @@ node socket.js
 
 Now Check your application in Browser.
 
-Follow me on [Twitter](https://twitter.com/gdbhosale) or [Github](https://github.com/gdbhosale).
+Follow me on [Twitter](https://twitter.com/gdbhosale) or [Github](https://github.com/gdbhosale). Check Laravel Admin Panel created by me: [LaraAdmin](http://laraadmin.com)
