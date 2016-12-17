@@ -15,6 +15,16 @@ Install Laravel
 composer install
 ```
 
+Make sure you have your `.env` configuration as below:
+```
+SOCKET_PORT=3000
+
+BROADCAST_DRIVER=redis
+CACHE_DRIVER=redis
+SESSION_DRIVER=redis
+QUEUE_DRIVER=redis
+```
+
 Install Redis server
 ```
 sudo apt-get install redis-server
@@ -40,5 +50,7 @@ Now start Socket.IO server
 ```
 node socket.js
 ```
+
+Now Check your application in Browser.
 
 Follow me on [Twitter](https://twitter.com/gdbhosale) or [Github](https://github.com/gdbhosale).
