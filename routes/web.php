@@ -12,5 +12,8 @@
 */
 
 Route::get('/', function () {
+    
+    event(new App\Events\Message("UserJoined", "", date('Y-m-d H:i:s')));
+
     return view('welcome');
 });

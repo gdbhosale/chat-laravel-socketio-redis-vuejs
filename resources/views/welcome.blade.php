@@ -1,91 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>    
+</head>
+<body>
+<h1>Messages</h1>
+<ul id="message-list">
+    <li v-for="message in messages">@{{ message }}</li>
+</ul>
+<script src="{{ asset('plugins/vue.js/vue.min.js') }}"></script>
+<script src="{{ asset('plugins/socket.io/socket.io.min.js') }}"></script>
+<script language="JavaScript">
+var socket_port = {{ env('SOCKET_PORT') }};
+var socket_host = 'http://127.0.0.1';
+var socket_channel = 'private-chat-channel';
 
-        <title>Laravel</title>
+var socket = io(socket_host + ":" + socket_port);
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+new Vue({
+    el: '#message-list',
+    data: {
+        messages: []
+    },
+    mounted: function() {
+        this.$nextTick(function () {
+            console.log("Setting socket on "+socket_host+":"+socket_port+" with channel "+socket_channel+"...");
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
-                height: 100vh;
-                margin: 0;
-            }
+            socket.on(socket_channel, function(event) {
+                console.log(event);
 
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    <a href="{{ url('/login') }}">Login</a>
-                    <a href="{{ url('/register') }}">Register</a>
-                </div>
-            @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
-            </div>
-        </div>
-    </body>
+                this.messages.push(event.data.type+" "+event.data.content+" "+event.data.time);
+            }.bind(this));
+        });
+    }
+});
+</script>
+</body>
 </html>
